@@ -1,0 +1,137 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Ledgerly — the one-person back office</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f7f4;--card:#fff;--ink:#12201a;--mut:#6a7a72;--line:#e3e8e2;--acc:#0e9f6e;--acc2:#e6f6ef;--bad:#d64545;--bad2:#fcebea;--warn:#d98a1c;--warn2:#fdf3e2}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#0d1310;--card:#151d19;--ink:#eaf2ed;--mut:#8a9c93;--line:#25302a;--acc:#2fd69b;--acc2:#12312a;--bad:#ff6b6b;--bad2:#3a1d1d;--warn:#f2b34d;--warn2:#392c14}}
+:root[data-theme=dark]{color-scheme:dark;--bg:#0d1310;--card:#151d19;--ink:#eaf2ed;--mut:#8a9c93;--line:#25302a;--acc:#2fd69b;--acc2:#12312a;--bad:#ff6b6b;--bad2:#3a1d1d;--warn:#f2b34d;--warn2:#392c14}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.w{max-width:980px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 0 14px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.5px}.logo b{color:var(--acc)}
+.chip{font-size:12px;padding:3px 9px;border-radius:99px;background:var(--acc2);color:var(--acc);font-weight:600}
+.sp{flex:1}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 13px;border-radius:10px;transition:.15s}
+button:hover{border-color:var(--acc)}button.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}button.s{padding:4px 10px;font-size:13px}
+nav{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:16px;width:max-content;max-width:100%;overflow-x:auto}
+nav button{border:0;background:none;color:var(--mut)}nav button.on{background:var(--acc2);color:var(--acc);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+h3{margin:0 0 10px;font-size:15px}.mut{color:var(--mut);font-size:13px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:center}
+@media(max-width:700px){.hero{grid-template-columns:1fr}}
+.big{font-size:40px;font-weight:800;letter-spacing:-1.5px;line-height:1.1}
+.scene{perspective:900px;height:210px;display:grid;place-items:center}
+.c3{position:relative;width:260px;height:170px;transform-style:preserve-3d;animation:fl 7s ease-in-out infinite}
+@keyframes fl{0%,100%{transform:rotateX(14deg) rotateY(-18deg)}50%{transform:rotateX(6deg) rotateY(16deg)}}
+.l{position:absolute;inset:0;border-radius:18px;padding:14px;border:1px solid var(--line);box-shadow:0 14px 30px #0002}
+.l1{background:var(--bad2);transform:translateZ(0)}.l2{background:var(--warn2);transform:translateZ(34px) translate(10px,10px) scale(.96)}
+.l3{background:var(--acc);color:#fff;transform:translateZ(70px) translate(22px,26px) scale(.9)}
+.l small{display:block;opacity:.8;font-size:11px;text-transform:uppercase;letter-spacing:1px}.l b{font-size:22px}
+@media(prefers-reduced-motion:reduce){.c3{animation:none;transform:rotateX(10deg) rotateY(-12deg)}}
+.al{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;margin-bottom:8px;background:var(--warn2)}
+.al.r{background:var(--bad2)}.al.g{background:var(--acc2)}.al span{flex:1}
+table{width:100%;border-collapse:collapse}th{font-size:12px;color:var(--mut);text-align:left;font-weight:600;padding:6px}
+td{padding:9px 6px;border-top:1px solid var(--line);vertical-align:middle}.sc{overflow-x:auto}
+.tag{font-size:12px;padding:2px 8px;border-radius:99px;font-weight:600;white-space:nowrap}
+.t-r{background:var(--bad2);color:var(--bad)}.t-w{background:var(--warn2);color:var(--warn)}.t-g{background:var(--acc2);color:var(--acc)}
+.bar{display:flex;height:12px;border-radius:99px;overflow:hidden;background:var(--line)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+input,select{font:inherit;padding:8px 11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}input[type=text]{flex:1;min-width:180px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:700px){.g2{grid-template-columns:1fr}}
+.rel{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}.rel i{flex:1;height:6px;border-radius:9px;background:var(--line);overflow:hidden}.rel i u{display:block;height:100%}
+svg text{fill:var(--mut);font-size:11px}
+#md{position:fixed;inset:0;background:#0007;display:none;place-items:center;z-index:30;padding:16px}
+#md>div{background:var(--card);border-radius:16px;padding:18px;max-width:480px;width:100%}
+textarea{width:100%;height:150px;font:inherit;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin:8px 0}
+#fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;border-radius:99px;padding:12px 18px}
+#chat{position:fixed;right:16px;bottom:calc(70px + env(safe-area-inset-bottom,0px));width:min(360px,calc(100% - 32px));height:420px;background:var(--card);border:1px solid var(--line);border-radius:16px;display:none;flex-direction:column;z-index:20;box-shadow:0 20px 50px #0003}
+#msgs{flex:1;overflow:auto;padding:12px}.m{margin:6px 0;padding:8px 11px;border-radius:12px;max-width:90%;background:var(--bg);font-size:14px}.m.u{background:var(--acc);color:#fff;margin-left:auto}
+#tt{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;display:none;z-index:40;font-size:14px;text-align:center}
+#cap{position:fixed;left:50%;transform:translateX(-50%);top:calc(10px + env(safe-area-inset-top,0px));background:var(--acc);color:#fff;padding:9px 18px;border-radius:99px;display:none;z-index:40;font-weight:600;max-width:92%;text-align:center}
+</style></head><body><div class="w">
+<header><div class="logo">Ledger<b>ly</b></div><span class="chip" id="chip"></span><div class="sp"></div><div class="row" id="mode"></div></header>
+<p class="mut" style="margin:0 0 12px">Three questions answered: <b>Who owes me?</b> · <b>Will I have enough cash?</b> · <b>What should I do today?</b></p><nav id="nv"></nav><div id="v"></div></div>
+<div id="md"><div id="mdc"></div></div><div id="tt"></div><div id="cap"></div>
+<button id="fab" class="p" onclick="tc()">✦ Ask Ledgerly</button>
+<div id="chat"><div id="msgs"></div><div class="row" style="padding:8px;border-top:1px solid var(--line)"><input type="text" id="ci" placeholder="Who owes me the most?" onkeydown="if(event.key=='Enter')ask()"><button class="p s" onclick="ask()">Send</button></div></div>
+<script>
+const $=s=>document.querySelector(s);let S;
+const lab=n=>{const d=new Date();d.setDate(d.getDate()+n);return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'})};
+const ru=n=>(n<0?'−':'')+'₹'+Math.abs(Math.round(n)).toLocaleString('en-IN');
+function init(m){S={live:m=='live',cash:4000,tab:'ov',days:60,sc:{on:false,cid:2,dl:15},
+cs:[{id:1,n:'Meena Iyer',st:'Arjun',fee:2500,late:1,ph:'9876500001'},{id:2,n:'Ravi Kumar',st:'Divya',fee:3000,late:12,ph:'9876500002'},{id:3,n:'Sunita Rao',st:'Kabir',fee:2000,late:0,ph:'9876500003'},{id:4,n:'Anand Pillai',st:'Nila',fee:2500,late:6,ph:'9876500004'},{id:5,n:'Fatima Khan',st:'Zoya',fee:3500,late:3,ph:'9876500005'},{id:6,n:'Joseph Mathew',st:'Ben',fee:1500,late:18,ph:'9876500006'},{id:7,n:'Lakshmi Devi',st:'Hari',fee:2000,late:2,ph:'9876500007'}],
+inv:[[1,2,3000,-21],[2,6,1500,-9],[3,4,2500,-4],[4,1,2500,-2],[5,5,3500,3],[6,7,2000,6],[7,3,2000,-1,1]].map(a=>({id:a[0],c:a[1],a:a[2],due:a[3],paid:!!a[4],ch:0})),
+bills:[{n:'Classroom rent',a:9000,d:4},{n:'Assistant salary',a:5000,d:7},{n:'Internet & power',a:700,d:9}]};if(m=='live'){S.cs=[];S.inv=[];S.bills=[];S.cash=0}}
+function setupCard(){return `<div class="card"><h3>Set up in 1 minute</h3><div class="row"><input type="number" id="sc0" placeholder="Cash in hand ₹" style="width:150px"><button onclick="S.cash=+$('#sc0').value||0;toast('Cash set');R()">Set cash</button></div><div class="row" style="margin-top:10px"><input type="text" id="cn" placeholder="Parent name"><input type="text" id="cc" placeholder="Child name" style="min-width:110px"><input type="number" id="cf" placeholder="Monthly fee ₹" style="width:130px"><input type="text" id="cp" placeholder="WhatsApp no." style="min-width:120px"><button class="p" onclick="addC()">Add customer</button></div><div class="row" style="margin-top:10px"><input type="text" id="bn" placeholder="Bill name (e.g. Rent)"><input type="number" id="ba" placeholder="Amount ₹" style="width:120px"><input type="number" id="bd" placeholder="Due in days" style="width:120px"><button onclick="addB()">Add bill</button></div></div>`}
+function addC(){const n=$('#cn').value.trim(),f=+$('#cf').value;if(!n||!f)return toast('Enter parent name and monthly fee');S.cs.push({id:Date.now(),n,st:$('#cc').value.trim()||'Student',fee:f,late:0,ph:$('#cp').value.trim()||'9999999999'});toast(n+' added');R()}
+function addB(){const n=$('#bn').value.trim(),a=+$('#ba').value,d=+$('#bd').value||1;if(!n||!a)return toast('Enter bill name and amount');S.bills.push({n,a,d});toast(n+' added');R()}
+const cu=id=>S.cs.find(c=>c.id==id),un=()=>S.inv.filter(i=>!i.paid),od=i=>Math.max(0,-i.due);
+function fc(N,cid,dl){const e=Array(N+1).fill(0);
+un().forEach(i=>{const c=cu(i.c);const d=Math.max(1,i.due+c.late+(c.id==cid?dl:0));if(d<=N)e[d]+=i.a});
+S.cs.forEach(c=>{for(let k=0;k<3;k++){const d=10+30*k+c.late+(c.id==cid?dl:0);if(d<=N)e[d]+=c.fee}});
+S.bills.forEach(b=>{for(let d=b.d;d<=N;d+=30)e[d]-=b.a});
+let b=S.cash;const o=[b];for(let d=1;d<=N;d++){b+=e[d];o.push(b)}return o}
+const mn=a=>{let m=0;a.forEach((v,i)=>{if(v<a[m])m=i});return m};
+function R(){$('#chip').textContent=S.live?'Live · your own data, starts at zero':'Demo · Priya’s Home Tuitions sample data';$('#mode').innerHTML=`<button class="${S.live?'':'p'}" onclick="init('demo');R()">Demo</button><button class="${S.live?'p':''}" onclick="init('live');R()">Live</button>${S.live?'':'<button class="s" onclick="tour()">▶ Play tour</button>'}`;$('#nv').innerHTML=[['ov','Overview'],['iv','Invoices'],['fc','Cash forecast']].map(t=>`<button class="${S.tab==t[0]?'on':''}" onclick="S.tab='${t[0]}';R()">${t[1]}</button>`).join('');
+$('#v').innerHTML=V[S.tab]();if(S.tab=='fc')upF()}
+function alerts(){const a=[];const o=un().filter(i=>i.due<0).sort((x,y)=>y.due*-1*y.a-x.due*-1*x.a||od(y)-od(x));
+o.sort((x,y)=>od(y)-od(x)).slice(0,3).forEach(i=>{const c=cu(i.c);a.push(`<div class="al ${od(i)>14?'r':''}"><span><b>Chase ${c.n.split(' ')[0]} today</b> — ${ru(i.a)} is ${od(i)} days late${i.ch?` (nudged ${i.ch}×)`:''}</span><button class="s p" onclick="openR(${i.id})">Draft reminder</button></div>`)});
+const f=fc(30),m=mn(f);if(f[m]<3000&&(S.inv.length||S.bills.length))a.unshift(`<div class="al ${f[m]<0?'r':''}"><span><b>Cash alert:</b> balance drops to ${ru(f[m])} on ${lab(m)}. Collect overdue fees before then.</span><button class="s" onclick="S.tab='fc';R()">See forecast</button></div>`);
+const b=S.bills.map(b=>({...b,x:b.d})).sort((p,q)=>p.x-q.x)[0];if(b)a.push(`<div class="al g"><span>Next bill: <b>${b.n}</b> ${ru(b.a)} on ${lab(b.d)}</span></div>`);return a.join('')}
+function rows(l){return l.map(i=>{const c=cu(i.c),n=od(i);const tg=n>14?'t-r':n>0?'t-w':'t-g';return `<tr><td><b>${c.n}</b><div class="mut">${c.st} · ${lab(i.due)}</div></td><td>${ru(i.a)}</td><td><span class="tag ${tg}">${n?n+' days overdue':'due in '+i.due+'d'}</span></td><td style="text-align:right;white-space:nowrap"><button class="s" onclick="openR(${i.id})">Remind</button> <button class="s p" onclick="pay(${i.id})">Paid ✓</button></td></tr>`}).join('')}
+const V={
+ov(){if(S.live&&!S.cs.length)return `<div class="card"><h3>Welcome 👋 Your books start at zero</h3><p class="mut">1) Set your cash. 2) Add a customer. 3) Create an invoice on the Invoices tab. The dashboard, alerts and forecast fill in as you go.</p></div>`+setupCard();const u=un(),tot=u.reduce((s,i)=>s+i.a,0),ov=u.filter(i=>i.due<0),ot=ov.reduce((s,i)=>s+i.a,0),f=fc(30),m=mn(f);
+const bk=[['Not due',u.filter(i=>i.due>=0),'var(--acc)'],['1–14 days',ov.filter(i=>od(i)<=14),'var(--warn)'],['15+ days',ov.filter(i=>od(i)>14),'var(--bad)']].map(x=>[x[0],x[1].reduce((s,i)=>s+i.a,0),x[2]]);
+return `<div class="card hero"><div><div class="mut">Cash in hand</div><div class="big">${ru(S.cash)}</div><p class="mut">${ru(tot)} is owed to you — <b style="color:var(--bad)">${ru(ot)}</b> already overdue. Lowest cash in 30 days: <b>${ru(f[m])}</b> on ${lab(m)}.</p></div>
+<div class="scene"><div class="c3"><div class="l l1"><small>Overdue</small><b>${ru(ot)}</b></div><div class="l l2"><small>Owed</small><b>${ru(tot)}</b></div><div class="l l3"><small>Cash today</small><b>${ru(S.cash)}</b></div></div></div></div>
+<div class="card"><h3>Do this today</h3>${alerts()}</div>
+<div class="card"><h3>Who owes me, how much, since when?</h3><div class="bar">${bk.map(b=>`<div style="flex:${b[1]||.001};background:${b[2]}"></div>`).join('')}</div><div class="row mut" style="margin:6px 0 10px">${bk.map(b=>`<span>● ${b[0]}: ${ru(b[1])}</span>`).join('')}</div>
+<div class="sc"><table><tr><th>Parent</th><th>Amount</th><th>Status</th><th></th></tr>${rows(u.sort((a,b)=>a.due-b.due))||'<tr><td>All paid 🎉</td></tr>'}</table></div></div>
+<div class="card"><h3>Who actually pays on time?</h3><div class="mut">Ledgerly learns each parent’s habit and uses it in your forecast.</div>${S.cs.slice().sort((a,b)=>b.late-a.late).map(c=>`<div class="rel"><span style="width:110px">${c.n.split(' ')[0]}</span><i><u style="width:${Math.max(6,100-c.late*5)}%;background:${c.late>10?'var(--bad)':c.late>4?'var(--warn)':'var(--acc)'}"></u></i><span style="width:90px;text-align:right">${c.late?'~'+c.late+'d late':'on time'}</span></div>`).join('')}</div>`},
+iv(){return (S.live?setupCard():'')+`<div class="card"><h3>Create an invoice in 5 seconds</h3><div class="row"><input type="text" id="qa" placeholder="Type: zoya 3500 due 7 (amount &amp; due optional)" onkeydown="if(event.key=='Enter')qa()"><button class="p" onclick="qa()">Create</button></div><div class="mut" style="margin-top:6px">Name only = their usual monthly fee, due in 7 days. Every child is saved once, then it’s one line.</div></div>
+<div class="card"><h3>Open invoices</h3><div class="sc"><table><tr><th>Parent</th><th>Amount</th><th>Status</th><th></th></tr>${rows(un().sort((a,b)=>a.due-b.due))||'<tr><td>Everything is paid 🎉</td></tr>'}</table></div></div>
+<div class="card"><h3>Paid</h3>${S.inv.filter(i=>i.paid).map(i=>`<div class="mut">✓ ${cu(i.c).n} — ${ru(i.a)}</div>`).join('')||'<div class="mut">Nothing yet.</div>'}</div>`},
+fc(){const s=S.sc;return `<div class="card"><div class="row"><h3 style="margin:0">Cash forecast</h3><div class="sp"></div>${[30,60,90].map(d=>`<button class="s ${S.days==d?'p':''}" onclick="S.days=${d};R()">${d} days</button>`).join('')}</div><div id="ch"></div></div>
+<div class="card"><h3>What if…</h3><div class="row"><select onchange="S.sc.cid=+this.value;S.sc.on=true;upF()">${S.cs.map(c=>`<option value="${c.id}" ${c.id==s.cid?'selected':''}>${c.n}</option>`).join('')}</select><span>pays</span><input type="range" min="0" max="45" value="${s.dl}" oninput="S.sc.dl=+this.value;S.sc.on=true;upF()"><b id="dv">${s.dl}</b> days late</div><p id="vd"></p></div>
+<div class="card"><h3>Upcoming bills</h3>${S.bills.map(b=>`<div class="row"><span>${b.n}</span><div class="sp"></div><span>${ru(b.a)} · ${lab(b.d)}</span></div>`).join('')}</div>`}};
+function upF(){const N=S.days,s=S.sc,a=fc(N),b=fc(N,s.cid,s.dl),W=720,H=230,p=30;
+const all=a.concat(b),lo=Math.min(0,...all),hi=Math.max(...all),y=v=>H-p-(v-lo)/((hi-lo)||1)*(H-2*p),x=i=>p+i*(W-2*p)/N;
+const pa=l=>l.map((v,i)=>(i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1)).join('');
+const ma=mn(a),mb=mn(b);let t='';for(let i=0;i<=N;i+=N/6)t+=`<text x="${x(i)}" y="${H-6}" text-anchor="middle">${lab(Math.round(i))}</text>`;
+$('#ch').innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="100%"><line x1="${p}" x2="${W-p}" y1="${y(0)}" y2="${y(0)}" stroke="var(--bad)" stroke-dasharray="4"/><text x="${p}" y="${y(0)-4}">₹0</text><path d="${pa(a)}" fill="none" stroke="var(--acc)" stroke-width="2.5"/>${s.on?`<path d="${pa(b)}" fill="none" stroke="var(--warn)" stroke-width="2.5" stroke-dasharray="6 4"/><circle cx="${x(mb)}" cy="${y(b[mb])}" r="5" fill="var(--warn)"/>`:''}<circle cx="${x(ma)}" cy="${y(a[ma])}" r="5" fill="var(--acc)"/>${t}</svg><div class="row mut"><span style="color:var(--acc)">● Expected</span>${s.on?'<span style="color:var(--warn)">● What-if</span>':''}<span>Lowest: <b>${ru(a[ma])}</b> on ${lab(ma)}</span></div>`;
+$('#dv').textContent=s.dl;const c=cu(s.cid),lt=s.on?`If <b>${c.n}</b> pays ${s.dl} days later, your lowest balance goes from <b>${ru(a[ma])}</b> to <b style="color:${b[mb]<0?'var(--bad)':'inherit'}">${ru(b[mb])}</b> on ${lab(mb)}. ${b[mb]<0?`You’d be short by ${ru(-b[mb])} — chase ${c.n.split(' ')[0]} now or shift a bill.`:'You’d still stay above zero.'}`:'Move the slider to test a late payer.';
+$('#vd').innerHTML=lt}
+function toast(t){const e=$('#tt');e.textContent=t;e.style.display='block';clearTimeout(e.h);e.h=setTimeout(()=>e.style.display='none',2600)}
+function pay(id){const i=S.inv.find(x=>x.id==id);i.paid=true;S.cash+=i.a;if(S.live){const c=cu(i.c);c.late=Math.round((c.late+Math.max(0,-i.due))/2)}toast(`${ru(i.a)} received from ${cu(i.c).n.split(' ')[0]} ✓`);R()}
+function qa(){const v=$('#qa').value.toLowerCase(),c=find(v);if(!c)return toast(S.cs.length?'Try: zoya 3500 due 7':'Add a customer first (Live setup box)');const m=v.match(/\b(\d{3,6})\b/),d=v.match(/due\s*(?:in)?\s*(\d+)/);
+S.inv.push({id:Date.now(),c:c.id,a:m?+m[1]:c.fee,due:d?+d[1]:7,paid:false,ch:0});toast('Invoice created for '+c.n);R()}
+function find(q){return S.cs.find(c=>q.includes(c.n.split(' ')[0].toLowerCase())||q.includes(c.st.toLowerCase()))}
+function openR(id){const i=S.inv.find(x=>x.id==id),c=cu(i.c),n=od(i),f=c.n.split(' ')[0];
+const m=n<=0?`Hi ${f}, a gentle reminder that ${c.st}’s tuition fee of ${ru(i.a)} is due on ${lab(i.due)}. Please pay by UPI when convenient. Thank you! 🙏`:n<=7?`Hi ${f}, hope you’re well! ${c.st}’s fee of ${ru(i.a)} (due ${lab(i.due)}) is still pending. Could you send it today? Thank you 🙏`:n<=14?`Hi ${f}, ${c.st}’s fee of ${ru(i.a)} is now ${n} days overdue. I have my own rent and assistant to pay, so please clear it by tomorrow. Thank you.`:`Dear ${f}, ${c.st}’s fee of ${ru(i.a)} has been pending for ${n} days. Please pay today, or call me to agree a plan. Further classes will resume once this is settled.`;
+$('#mdc').innerHTML=`<h3>Reminder for ${c.n}</h3><span class="tag ${n>14?'t-r':n>0?'t-w':'t-g'}">${n>14?'Firm':n>7?'Polite but direct':'Friendly'} tone, auto-picked from ${n} days late</span><textarea id="rm">${m}</textarea><div class="row"><button class="p" onclick="send(${id},'${c.ph}')">Send on WhatsApp</button><button onclick="navigator.clipboard&&navigator.clipboard.writeText($('#rm').value).catch(()=>0);toast('Copied')">Copy</button><button onclick="$('#md').style.display='none'">Close</button></div>`;$('#md').style.display='grid'}
+function send(id,ph){const i=S.inv.find(x=>x.id==id);i.ch++;window.open('https://wa.me/91'+ph+'?text='+encodeURIComponent($('#rm').value),'_blank');$('#md').style.display='none';toast('Logged as chased');R()}
+function tc(){const c=$('#chat');c.style.display=c.style.display=='flex'?'none':'flex';if(!$('#msgs').children.length)say(`Hi Priya! I’m your AI assistant. Ask me anything about your money, or tap one:<div class="row" style="margin-top:8px">${['Who owes me the most?','Will I run out of cash?','What if Ravi pays 20 days late?','Remind Joseph'].map(t=>`<button class="s" onclick="ask('${t}')">${t}</button>`).join('')}</div>`,'')}
+function say(h,u){$('#msgs').insertAdjacentHTML('beforeend',`<div class="m ${u?'u':''}">${h}</div>`);$('#msgs').scrollTop=1e9}
+let sm=null;
+async function ask(q){q=q||$('#ci').value.trim();if(!q)return;$('#ci').value='';say(q,1);
+if(sm===null){try{sm=await claude.use('sample')}catch(e){sm=false}}
+if(!sm)return askLocal(q);
+say('Thinking…','');const el=$('#msgs').lastChild;el.style.whiteSpace='pre-wrap';
+const f=fc(60),m=mn(f);const ctx=JSON.stringify({today:lab(0),cashInHand:S.cash,parents:S.cs.map(c=>({name:c.n,child:c.st,monthlyFee:c.fee,avgDaysLate:c.late})),openInvoices:un().map(i=>({parent:cu(i.c).n,amount:i.a,daysOverdue:od(i),dueInDays:i.due,timesChased:i.ch})),bills:S.bills.map(b=>({name:b.n,amount:b.a,dayFromToday:b.d})),lowestCashNext60Days:{amount:f[m],date:lab(m)}});
+const P=n=>{const c=find(String(n).toLowerCase());if(!c)throw new Error('unknown parent');return c};
+const tools=[{name:'draft_reminder',description:'Open a WhatsApp reminder draft for this parent',inputSchema:{type:'object',properties:{name:{type:'string'}},required:['name']},execute:({name})=>{const c=P(name),i=un().find(x=>x.c==c.id);if(!i)throw new Error('no open invoice');setTimeout(()=>openR(i.id),300);return 'draft opened'}},{name:'mark_paid',description:'Mark this parent’s open invoice as paid',inputSchema:{type:'object',properties:{name:{type:'string'}},required:['name']},execute:({name})=>{const c=P(name),i=un().find(x=>x.c==c.id);if(!i)throw new Error('no open invoice');pay(i.id);return 'marked paid'}},{name:'what_if_late',description:'Show forecast if this parent pays N days late. Returns lowest balance before and after',inputSchema:{type:'object',properties:{name:{type:'string'},days:{type:'number'}},required:['name','days']},execute:({name,days})=>{const c=P(name);S.sc={on:true,cid:c.id,dl:days};const a=fc(60),b=fc(60,c.id,days);return {before:a[mn(a)],beforeDate:lab(mn(a)),after:b[mn(b)],afterDate:lab(mn(b))}}}];
+const prompt='You are the assistant inside Ledgerly, a simple back-office app for Priya, a home tutor in India. Answer in 1 to 3 short sentences, plain simple words, use the ₹ symbol, be specific with names and numbers, and end with one clear next action when useful. Use tools when she asks you to draft a reminder, mark something paid, or test a what-if. Her data: '+ctx+'\n\nHer question: '+q;
+try{const r=await sm(prompt,{tools,cache:false,modelTier:'quick',onText:({text})=>{el.textContent=text;$('#msgs').scrollTop=1e9}});el.textContent=r.text;if(S.sc.on&&S.tab=='fc')R()}catch(e){if(e&&e.code=='not_granted')sm=false;el.remove();askLocal(q)}}
+function askLocal(q){const l=q.toLowerCase(),c=find(l),u=un();let r;
+if(/what if|late/.test(l)&&c&&/\d+/.test(l)){S.sc={on:true,cid:c.id,dl:+l.match(/\d+/)[0]};const a=fc(60),b=fc(60,c.id,S.sc.dl);r=`If ${c.n.split(' ')[0]} pays ${S.sc.dl} days late, your low point moves from ${ru(a[mn(a)])} to ${ru(b[mb=mn(b)])} on ${lab(mn(b))}. <a href="#" onclick="S.tab='fc';R();return false">Open forecast</a>`}
+else if(/remind|chase|draft/.test(l)&&c){const i=u.find(x=>x.c==c.id);r=i?(setTimeout(()=>openR(i.id),200),'Drafting it now ✍️'):'They have nothing pending.'}
+else if(/paid/.test(l)&&c){const i=u.find(x=>x.c==c.id);if(i){pay(i.id);r='Marked paid and added to your cash.'}else r='No open invoice for them.'}
+else if(/cash|run out|forecast|short|rent|afford/.test(l)){const f=fc(60),m=mn(f);r=f[m]<0?`Yes, risk: you go to ${ru(f[m])} on ${lab(m)}. Collect overdue fees first.`:`You stay positive. Lowest point is ${ru(f[m])} on ${lab(m)}.`}
+else if(/late|worst|reliab|slow/.test(l)){const w=S.cs.slice().sort((a,b)=>b.late-a.late)[0];r=`${w.n} is your slowest payer (~${w.late} days late on average).`}
+else if(/owe|owed|overdue|pending/.test(l)){r=u.sort((a,b)=>b.a-a.a).slice(0,4).map(i=>`${cu(i.c).n}: ${ru(i.a)} (${od(i)?od(i)+'d late':'not due'})`).join('<br>')+`<br><b>Total ${ru(u.reduce((s,i)=>s+i.a,0))}</b>`}
+else if(c){r=`${c.n} (${c.st}) pays about ${c.late} days late; monthly fee ${ru(c.fee)}.`}
+else r='I can answer about who owes you, cash risk, slow payers, what-ifs, reminders and marking paid.';
+setTimeout(()=>say(r,''),250)}
+function tour(){const st=[[0,()=>{S.tab='ov';S.sc.on=false;$('#chat').style.display='none';R()},'1 · Who owes me, since when?'],[3500,()=>{S.tab='iv';R();$('#qa').value='zoya';qa()},'2 · One-line invoice, no forms'],[3500,()=>{S.tab='ov';R();openR(1)},'3 · Auto-drafted reminder, tone by lateness'],[4000,()=>{$('#md').style.display='none';S.tab='fc';R()},'4 · 60-day cash forecast'],[3500,()=>{S.sc={on:true,cid:2,dl:15};R()},'5 · What if Ravi pays 15 days late?'],[4500,()=>{S.tab='ov';R();tc();say('will I run out of cash',1);askLocal('will I run out of cash')},'6 · Ask the assistant anything'],[4500,()=>{$('#chat').style.display='none';$('#cap').style.display='none'},'']];
+let t=0;st.forEach(s=>{t+=s[0];setTimeout(()=>{s[1]();const c=$('#cap');c.textContent=s[2];c.style.display=s[2]?'block':'none'},t)})}
+init();R();
+</script></body></html>
